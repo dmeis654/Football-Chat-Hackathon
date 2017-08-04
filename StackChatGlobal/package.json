@@ -1,0 +1,49 @@
+{
+  "name": "stackchat",
+  "version": "1.0.0",
+  "description": "A chatty appy chat app",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack -w & nodemon server --ignore /client --ignore /public",
+    "start-server": "nodemon server",
+    "build-client": "webpack",
+    "seed": "node seed.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/translate": "^1.0.0",
+    "axios": "^0.15.3",
+    "babel-polyfill": "^6.23.0",
+    "body-parser": "^1.16.1",
+    "bootstrap": "^3.3.7",
+    "express": "^4.14.1",
+    "morgan": "^1.8.1",
+    "pg": "^6.1.2",
+    "pg-hstore": "^2.3.2",
+    "react": "^15.6.1",
+    "react-bootstrap": "^0.31.2",
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.3",
+    "react-router-dom": "^4.0.0",
+    "redux": "^3.6.0",
+    "redux-devtools-extension": "^2.13.0",
+    "redux-logger": "^2.8.2",
+    "redux-thunk": "^2.2.0",
+    "sequelize": "^3.30.2",
+    "socket.io": "^1.7.2"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "css-loader": "^0.26.2",
+    "node-sass": "^4.5.0",
+    "nodemon": "^1.11.0",
+    "sass-loader": "^6.0.2",
+    "style-loader": "^0.13.2",
+    "webpack": "^2.2.1"
+  }
+}
