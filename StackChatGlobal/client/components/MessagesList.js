@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Message from './Message';
 import NewMessageEntry from './NewMessageEntry';
-import { changeCurrentChannel, fetchEnglishMessages, fetchSpanishMessages, fetchFrenchMessages, fetchMessages } from '../store';
+import { changeCurrentChannel, fetchTranslatedMessages, fetchMessages } from '../store';
 
 function MessagesList (props) {
 
@@ -11,7 +11,19 @@ function MessagesList (props) {
   return (
     <div>
       <ul className="media-list">
-        { messages.map(message => <Message message={message} key={message.id} />) }
+        { 
+          messages.sort((message1, message2) => {
+            if (message1.id > message2.id){
+              return 1
+            }
+            if (message1.id < message2.id){
+              return -1
+            }
+            return 0
+          }).map(message => {
+            return <Message message={message} key={message.id} />
+          })
+        }
       </ul>
       <NewMessageEntry channelId={channelId} />
     </div>
@@ -25,26 +37,16 @@ class MessagesListLoader extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
+    console.log('this props', this.props.language)
+    console.log('next props', nextProps.language)
     if (nextProps.channel.name !== this.props.channel.name) {
       this.props.changeCurrentChannel(nextProps.channel.name);
     }
-    if (nextProps.language === "English" && this.props.language !== "English") {
-      this.props.fetchEnglishMessages()
+    if (nextProps.language !== this.props.language) {
+      this.props.fetchTranslatedMessages(nextProps.language)
     }
-    if (nextProps.language === "Spanish" && this.props.language !== "Spanish") {
-      this.props.fetchSpanishMessages()
-    }
-    if (nextProps.language === "French" && this.props.language !== "French") {
-      this.props.fetchFrenchMessages()
-    }
-    if (nextProps.messages.length !== this.props.messages.length && this.props.language === "English") {
-      this.props.fetchEnglishMessages()
-    }
-    if (nextProps.messages.length !== this.props.messages.length && this.props.language === "Spanish") {
-      this.props.fetchSpanishMessages()
-    }
-    if (nextProps.messages.length !== this.props.messages.length && this.props.language === "French") {
-      this.props.fetchFrenchMessages()
+    if (nextProps.messages.length !== this.props.messages.length) {
+      this.props.fetchTranslatedMessages(nextProps.language)
     }
   }
 
@@ -80,20 +82,11 @@ const mapStateToProps = function (state, ownProps) {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    changeCurrentChannel(channelName) {
+    changeCurrentChannel: (channelName) => {
       dispatch(changeCurrentChannel(channelName));
     },
-    fetchMessages() {
-      dispatch(fetchMessages())
-    },
-    fetchEnglishMessages() {
-      dispatch(fetchEnglishMessages())
-    },
-    fetchSpanishMessages() {
-      dispatch(fetchSpanishMessages())
-    },
-    fetchFrenchMessages() {
-      dispatch(fetchFrenchMessages())
+    fetchTranslatedMessages: (language) => {
+      dispatch(fetchTranslatedMessages(language))
     }
   };
 };

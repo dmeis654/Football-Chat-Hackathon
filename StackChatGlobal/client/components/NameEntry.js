@@ -21,9 +21,32 @@ function NameEntry (props) {
       </form>
       <select onChange={handleLanguageChange}>
           <option value="" disabled selected>Select your Language</option>
-          <option value="English"> English </option>
-          <option value="Spanish"> Spanish </option>
-          <option value="French"> French </option>
+          <option value="en"> English </option>
+          <option value="es"> Spanish </option>
+          <option value="fr"> French </option>
+          <option value="de"> German </option>
+          <option value="ar"> Arabic </option>
+          <option value="hy"> Armenian </option>
+          <option value="bg"> Bulgarian </option>
+          <option value="zh-CN"> Chinese </option>
+          <option value="cs"> Czech </option>
+          <option value="fi"> Finnish </option>
+          <option value="el"> Greek </option>
+          <option value="iw"> Hebrew </option>
+          <option value="hi"> Hindi </option>
+          <option value="hu"> Hungarian </option>
+          <option value="id"> Indonesian </option>
+          <option value="it"> Italian </option> 
+          <option value="ja"> Japanese </option> 
+          <option value="ko"> Korean </option>
+          <option value="no"> Norwegian </option> 
+          <option value="pl"> Polish </option>
+          <option value="pt"> Portuguese </option>
+          <option value="ru"> Russian </option> 
+          <option value="sv"> Sweedish </option>
+          <option value="tr"> Turkish </option>
+          <option value="uk"> Ukrainian </option> 
+          <option value="vi"> Vietnamese </option> 
       </select>
     </div>
   );

@@ -11,12 +11,7 @@ import {fetchSpanishMessages } from '../store';
 export default class Main extends Component {
 
   componentDidMount () {
-    //const messagesThunk = fetchMessages();
-    //const spanishMessagesThunk = fetchSpanishMessages();
     const channelsThunk = fetchChannels();
-    
-    //store.dispatch(messagesThunk);
-    //store.dispatch(spanishMessagesThunk);
     store.dispatch(channelsThunk);
   }
 
@@ -36,29 +31,3 @@ export default class Main extends Component {
     );
   }
 }
-
-
-// const mapStateToProps = function (state, ownProps) {
-
-//   return {
-//     // channel: state.channels.find(channel => channel.id === channelId) || { name: '' },
-//     // messages: state.messages.filter(message => message.channelId === channelId),
-//     // channelId
-//     //channel: state.channels,
-//     //messages: state.messages,
-//     //channelId: channelId
-//   };
-// };
-
-// const mapDispatchToProps = function (dispatch) {
-//   return {
-//     // changeCurrentChannel(channelName) {
-//     //   dispatch(changeCurrentChannel(channelName));
-//     // },
-//     // fetchSpanishMessages() {
-//     //   dispatch(fetchSpanishMessages())
-//     // }
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Main);

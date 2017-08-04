@@ -5,7 +5,7 @@ export default function Message (props) {
   const message = props.message;
 
   return (
-    <li className="media">
+    <li className="media" id="single-message">
       <div className="media-left">
         <a href="#">
           <img className="media-object" src={message.author.image} alt="image" />

@@ -17904,12 +17904,7 @@ var Main = function (_Component) {
   _createClass(Main, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      //const messagesThunk = fetchMessages();
-      //const spanishMessagesThunk = fetchSpanishMessages();
       var channelsThunk = (0, _store.fetchChannels)();
-
-      //store.dispatch(messagesThunk);
-      //store.dispatch(spanishMessagesThunk);
       _store2.default.dispatch(channelsThunk);
     }
   }, {
@@ -17938,32 +17933,6 @@ var Main = function (_Component) {
   return Main;
 }(_react.Component);
 
-// const mapStateToProps = function (state, ownProps) {
-
-//   return {
-//     // channel: state.channels.find(channel => channel.id === channelId) || { name: '' },
-//     // messages: state.messages.filter(message => message.channelId === channelId),
-//     // channelId
-//     //channel: state.channels,
-//     //messages: state.messages,
-//     //channelId: channelId
-//   };
-// };
-
-// const mapDispatchToProps = function (dispatch) {
-//   return {
-//     // changeCurrentChannel(channelName) {
-//     //   dispatch(changeCurrentChannel(channelName));
-//     // },
-//     // fetchSpanishMessages() {
-//     //   dispatch(fetchSpanishMessages())
-//     // }
-//   };
-// };
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Main);
-
-
 exports.default = Main;
 
 /***/ }),
@@ -17990,7 +17959,7 @@ function Message(props) {
 
   return _react2.default.createElement(
     "li",
-    { className: "media" },
+    { className: "media", id: "single-message" },
     _react2.default.createElement(
       "div",
       { className: "media-left" },
@@ -18062,7 +18031,15 @@ function MessagesList(props) {
     _react2.default.createElement(
       'ul',
       { className: 'media-list' },
-      messages.map(function (message) {
+      messages.sort(function (message1, message2) {
+        if (message1.id > message2.id) {
+          return 1;
+        }
+        if (message1.id < message2.id) {
+          return -1;
+        }
+        return 0;
+      }).map(function (message) {
         return _react2.default.createElement(_Message2.default, { message: message, key: message.id });
       })
     ),
@@ -18087,26 +18064,16 @@ var MessagesListLoader = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
+      console.log('this props', this.props.language);
+      console.log('next props', nextProps.language);
       if (nextProps.channel.name !== this.props.channel.name) {
         this.props.changeCurrentChannel(nextProps.channel.name);
       }
-      if (nextProps.language === "English" && this.props.language !== "English") {
-        this.props.fetchEnglishMessages();
+      if (nextProps.language !== this.props.language) {
+        this.props.fetchTranslatedMessages(nextProps.language);
       }
-      if (nextProps.language === "Spanish" && this.props.language !== "Spanish") {
-        this.props.fetchSpanishMessages();
-      }
-      if (nextProps.language === "French" && this.props.language !== "French") {
-        this.props.fetchFrenchMessages();
-      }
-      if (nextProps.messages.length !== this.props.messages.length && this.props.language === "English") {
-        this.props.fetchEnglishMessages();
-      }
-      if (nextProps.messages.length !== this.props.messages.length && this.props.language === "Spanish") {
-        this.props.fetchSpanishMessages();
-      }
-      if (nextProps.messages.length !== this.props.messages.length && this.props.language === "French") {
-        this.props.fetchFrenchMessages();
+      if (nextProps.messages.length !== this.props.messages.length) {
+        this.props.fetchTranslatedMessages(nextProps.language);
       }
     }
   }, {
@@ -18152,17 +18119,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     changeCurrentChannel: function changeCurrentChannel(channelName) {
       dispatch((0, _store.changeCurrentChannel)(channelName));
     },
-    fetchMessages: function fetchMessages() {
-      dispatch((0, _store.fetchMessages)());
-    },
-    fetchEnglishMessages: function fetchEnglishMessages() {
-      dispatch((0, _store.fetchEnglishMessages)());
-    },
-    fetchSpanishMessages: function fetchSpanishMessages() {
-      dispatch((0, _store.fetchSpanishMessages)());
-    },
-    fetchFrenchMessages: function fetchFrenchMessages() {
-      dispatch((0, _store.fetchFrenchMessages)());
+    fetchTranslatedMessages: function fetchTranslatedMessages(language) {
+      dispatch((0, _store.fetchTranslatedMessages)(language));
     }
   };
 };
@@ -18222,18 +18180,133 @@ function NameEntry(props) {
       ),
       _react2.default.createElement(
         'option',
-        { value: 'English' },
+        { value: 'en' },
         ' English '
       ),
       _react2.default.createElement(
         'option',
-        { value: 'Spanish' },
+        { value: 'es' },
         ' Spanish '
       ),
       _react2.default.createElement(
         'option',
-        { value: 'French' },
+        { value: 'fr' },
         ' French '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'de' },
+        ' German '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'ar' },
+        ' Arabic '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'hy' },
+        ' Armenian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'bg' },
+        ' Bulgarian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'zh-CN' },
+        ' Chinese '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'cs' },
+        ' Czech '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'fi' },
+        ' Finnish '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'el' },
+        ' Greek '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'iw' },
+        ' Hebrew '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'hi' },
+        ' Hindi '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'hu' },
+        ' Hungarian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'id' },
+        ' Indonesian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'it' },
+        ' Italian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'ja' },
+        ' Japanese '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'ko' },
+        ' Korean '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'no' },
+        ' Norwegian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'pl' },
+        ' Polish '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'pt' },
+        ' Portuguese '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'ru' },
+        ' Russian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'sv' },
+        ' Sweedish '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'tr' },
+        ' Turkish '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'uk' },
+        ' Ukrainian '
+      ),
+      _react2.default.createElement(
+        'option',
+        { value: 'vi' },
+        ' Vietnamese '
       )
     )
   );
@@ -18742,13 +18815,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getMessage = getMessage;
 exports.getMessages = getMessages;
-exports.getEnglishMessages = getEnglishMessages;
-exports.getSpanishMessages = getSpanishMessages;
-exports.getFrenchMessages = getFrenchMessages;
+exports.getTranslatedMessages = getTranslatedMessages;
 exports.fetchMessages = fetchMessages;
-exports.fetchEnglishMessages = fetchEnglishMessages;
-exports.fetchSpanishMessages = fetchSpanishMessages;
-exports.fetchFrenchMessages = fetchFrenchMessages;
+exports.fetchTranslatedMessages = fetchTranslatedMessages;
 exports.postMessage = postMessage;
 exports.default = reducer;
 
@@ -18768,9 +18837,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var GET_MESSAGE = 'GET_MESSAGE';
 var GET_MESSAGES = 'GET_MESSAGES';
-var GET_ENGLISH_MESSAGES = 'GET_ENGLISH_MESSAGES';
-var GET_SPANISH_MESSAGES = 'GET_SPANISH_MESSAGES';
-var GET_FRENCH_MESSAGES = 'GET_FRENCH_MESSAGES';
+var GET_TRANSLATED_MESSAGES = 'GET_TRANSLATED_MESSAGES';
 
 // ACTION CREATORS
 
@@ -18784,18 +18851,8 @@ function getMessages(messages) {
   return action;
 }
 
-function getEnglishMessages(messages) {
-  var action = { type: GET_ENGLISH_MESSAGES, messages: messages };
-  return action;
-}
-
-function getSpanishMessages(messages) {
-  var action = { type: GET_SPANISH_MESSAGES, messages: messages };
-  return action;
-}
-
-function getFrenchMessages(messages) {
-  var action = { type: GET_FRENCH_MESSAGES, messages: messages };
+function getTranslatedMessages(messages) {
+  var action = { type: GET_TRANSLATED_MESSAGES, messages: messages };
   return action;
 }
 
@@ -18813,37 +18870,13 @@ function fetchMessages() {
   };
 }
 
-function fetchEnglishMessages() {
+function fetchTranslatedMessages(language) {
 
   return function thunk(dispatch) {
-    return _axios2.default.get('/api/messages/translateEnglish').then(function (res) {
+    return _axios2.default.get('/api/messages/translate', { params: { language: language } }).then(function (res) {
       return res.data;
     }).then(function (messages) {
-      var action = getEnglishMessages(messages);
-      dispatch(action);
-    });
-  };
-}
-
-function fetchSpanishMessages() {
-
-  return function thunk(dispatch) {
-    return _axios2.default.get('/api/messages/translateSpanish').then(function (res) {
-      return res.data;
-    }).then(function (messages) {
-      var action = getSpanishMessages(messages);
-      dispatch(action);
-    });
-  };
-}
-
-function fetchFrenchMessages() {
-
-  return function thunk(dispatch) {
-    return _axios2.default.get('/api/messages/translateFrench').then(function (res) {
-      return res.data;
-    }).then(function (messages) {
-      var action = getFrenchMessages(messages);
+      var action = getTranslatedMessages(messages);
       dispatch(action);
     });
   };
@@ -18877,13 +18910,7 @@ function reducer() {
     case GET_MESSAGE:
       return [].concat(_toConsumableArray(state), [action.message]);
 
-    case GET_SPANISH_MESSAGES:
-      return action.messages;
-
-    case GET_FRENCH_MESSAGES:
-      return action.messages;
-
-    case GET_ENGLISH_MESSAGES:
+    case GET_TRANSLATED_MESSAGES:
       return action.messages;
 
     default:
@@ -20435,7 +20462,7 @@ exports = module.exports = __webpack_require__(190)();
 
 
 // module
-exports.push([module.i, "body {\n  height: 100vh; }\n  body #create-channel {\n    font-size: 20px; }\n  body #soccer-field {\n    width: 100%;\n    height: 600px; }\n  body select {\n    background-color: greenyellow;\n    border-color: green;\n    align-items: center;\n    -webkit-border-radius: 20px;\n    -moz-border-radius: 20px;\n    border-radius: 20px; }\n  body #app {\n    height: 100%;\n    background-color: lightgreen; }\n    body #app > div {\n      height: 100%;\n      display: flex; }\n    body #app sidebar {\n      background-color: darkgreen;\n      color: #AFB1B6;\n      z-index: 2; }\n      body #app sidebar .sidebar-header {\n        height: 53px;\n        width: 220px;\n        background-color: green;\n        border-bottom: 1px solid gray;\n        color: white; }\n        body #app sidebar .sidebar-header h3 {\n          display: flex;\n          align-items: center;\n          margin: 0;\n          padding: 12px; }\n          body #app sidebar .sidebar-header h3 div {\n            margin-right: 10px; }\n      body #app sidebar h5 {\n        text-transform: uppercase;\n        margin-left: 16px;\n        font-size: 22px;\n        color: white; }\n      body #app sidebar ul {\n        text-transform: lowercase;\n        list-style-type: none;\n        margin: 0;\n        padding: 0; }\n        body #app sidebar ul li {\n          height: 28px;\n          width: 205px; }\n          body #app sidebar ul li a {\n            color: lightgrey;\n            padding-left: 16px;\n            padding-top: 3px;\n            display: list-item;\n            height: 100%;\n            width: 100%; }\n            body #app sidebar ul li a:hover, body #app sidebar ul li a:focus {\n              color: #AFB1B6;\n              background-color: #303641;\n              text-decoration: none; }\n            body #app sidebar ul li a.active {\n              background-color: #5294E2;\n              color: #D4D5D8;\n              border-radius: 0 5px 5px 0; }\n            body #app sidebar ul li a span:first-child {\n              margin-right: 10px; }\n          body #app sidebar ul li:last-child {\n            text-decoration: underline; }\n    body #app nav {\n      position: fixed;\n      height: 53px;\n      width: 100%;\n      background-color: green;\n      z-index: 1;\n      border-bottom: 1px solid gray;\n      display: flex;\n      align-items: center; }\n      body #app nav h3 {\n        margin: 0 0 0 240px;\n        flex: 1 1 auto;\n        color: white; }\n      body #app nav form {\n        margin: 0 10px 0 0; }\n        body #app nav form label {\n          margin-right: 1rem; }\n    body #app main {\n      margin: 78px 25px 25px 25px;\n      flex: 1 1 auto;\n      display: flex;\n      flex-direction: column;\n      background-color: lightgreen;\n      border-color: lightgreen; }\n      body #app main .media-list {\n        overflow-y: scroll;\n        flex: 1 1 auto; }\n      body #app main .media img {\n        height: 64px;\n        width: 64px; }\n      body #app main .media-object {\n        border-radius: 5px; }\n      body #app main > div {\n        display: flex;\n        flex-direction: column;\n        flex: 1 1 auto; }\n      body #app main #new-message-form {\n        position: relative; }\n        body #app main #new-message-form .form-control {\n          border-width: 3px 1.5px 3px 3px; }\n        body #app main #new-message-form .btn {\n          border-width: 3px; }\n", ""]);
+exports.push([module.i, "body {\n  height: 100vh; }\n  body #create-channel {\n    font-size: 20px; }\n  body #single-message {\n    border: 2px;\n    border-color: red; }\n  body #soccer-field {\n    width: 100%;\n    height: 600px; }\n  body select {\n    background-color: greenyellow;\n    border-color: green;\n    align-items: center;\n    -webkit-border-radius: 20px;\n    -moz-border-radius: 20px;\n    border-radius: 20px; }\n  body #app {\n    height: 100%;\n    background-color: lightgreen; }\n    body #app > div {\n      height: 100%;\n      display: flex; }\n    body #app sidebar {\n      background-color: darkgreen;\n      color: #AFB1B6;\n      z-index: 2; }\n      body #app sidebar .sidebar-header {\n        height: 53px;\n        width: 220px;\n        background-color: green;\n        border-bottom: 1px solid gray;\n        color: white; }\n        body #app sidebar .sidebar-header h3 {\n          display: flex;\n          align-items: center;\n          margin: 0;\n          padding: 12px; }\n          body #app sidebar .sidebar-header h3 div {\n            margin-right: 10px; }\n      body #app sidebar h5 {\n        text-transform: uppercase;\n        margin-left: 16px;\n        font-size: 22px;\n        color: white; }\n      body #app sidebar ul {\n        text-transform: lowercase;\n        list-style-type: none;\n        margin: 0;\n        padding: 0; }\n        body #app sidebar ul li {\n          height: 28px;\n          width: 205px; }\n          body #app sidebar ul li a {\n            color: lightgrey;\n            padding-left: 16px;\n            padding-top: 3px;\n            display: list-item;\n            height: 100%;\n            width: 100%; }\n            body #app sidebar ul li a:hover, body #app sidebar ul li a:focus {\n              color: #AFB1B6;\n              background-color: #303641;\n              text-decoration: none; }\n            body #app sidebar ul li a.active {\n              background-color: #5294E2;\n              color: #D4D5D8;\n              border-radius: 0 5px 5px 0; }\n            body #app sidebar ul li a span:first-child {\n              margin-right: 10px; }\n          body #app sidebar ul li:last-child {\n            text-decoration: underline; }\n    body #app nav {\n      position: fixed;\n      height: 53px;\n      width: 100%;\n      background-color: green;\n      z-index: 1;\n      border-bottom: 1px solid gray;\n      display: flex;\n      align-items: center; }\n      body #app nav h3 {\n        margin: 0 0 0 240px;\n        flex: 1 1 auto;\n        color: white; }\n      body #app nav form {\n        margin: 0 10px 0 0; }\n        body #app nav form label {\n          margin-right: 1rem; }\n    body #app main {\n      margin: 78px 25px 25px 25px;\n      flex: 1 1 auto;\n      display: flex;\n      flex-direction: column;\n      background-color: lightgreen;\n      border-color: lightgreen; }\n      body #app main .media-list {\n        overflow-y: scroll;\n        flex: 1 1 auto; }\n      body #app main .media img {\n        height: 64px;\n        width: 64px; }\n      body #app main .media-object {\n        border-radius: 5px; }\n      body #app main > div {\n        display: flex;\n        flex-direction: column;\n        flex: 1 1 auto; }\n      body #app main #new-message-form {\n        position: relative; }\n        body #app main #new-message-form .form-control {\n          border-width: 3px 1.5px 3px 3px; }\n        body #app main #new-message-form .btn {\n          border-width: 3px; }\n", ""]);
 
 // exports
 

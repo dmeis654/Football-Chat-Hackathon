@@ -4,10 +4,10 @@ const Message = require('./server/db/models/message');
 const Channel = require('./server/db/models/channel');
 
 const channels = [
-  { name: 'really_random' },
-  { name: 'generally_speaking' },
-  { name: 'dogs_of_fullstack' },
-  { name: 'lunch_planning' }
+  { name: 'Agentina vs. Brazil', id: 1 },
+  { name: 'Love the Website', id: 2 },
+  { name: 'Man U vs. Real', id: 3 },
+  { name: 'Trash Talkers', id: 4 }
 ];
 
 const authors = [{
@@ -15,76 +15,76 @@ const authors = [{
   image: '/images/anonymous.png',
   language: 'English'
 }, {
-  name: 'Cody',
-  image: '/images/cody.jpg',
+  name: 'Dan',
+  image: '/images/user2.png',
   language: 'English'
 }, {
-  name: 'Ben',
-  image: '/images/ben.jpg',
+  name: 'Joe',
+  image: '/images/user3.jpg',
   language: 'English'
 }, {
-  name: 'Star',
-  image: '/images/star.jpg',
+  name: 'Amy',
+  image: '/images/user4.png',
   language: 'English'
 }, {
-  name: 'Batman',
-  image: '/images/batman.jpg',
+  name: 'Lucy',
+  image: '/images/user5.jpeg',
   language: 'English'
 }, {
-  name: 'Elliott',
-  image: '/images/elliott.jpg',
+  name: 'Jacob',
+  image: '/images/user6.png',
   language: 'English'
 }, {
-  name: 'Fira',
-  image: '/images/fira.jpg',
+  name: 'Cassio',
+  image: '/images/user7.png',
   language: 'English'
 }, {
-  name: 'Henry',
-  image: '/images/henry.jpg',
+  name: 'Emily',
+  image: '/images/user8.png',
   language: 'Spanish'
 }, {
-  name: 'Marcy',
-  image: '/images/marcy.jpg',
+  name: 'Pedro',
+  image: '/images/user9.png',
   language: 'Spanish'
 }, {
-  name: 'Milton',
-  image: '/images/milton.jpg',
+  name: 'Leonardo',
+  image: '/images/user10.jpeg',
   language: 'Spanish'
 }, {
-  name: 'Murphy',
-  image: '/images/murphy.jpg',
+  name: 'Chet',
+  image: '/images/user11.jpeg',
   language: 'Spanish'
 }, {
   name: 'Raffi',
-  image: '/images/raffi.jpg',
+  image: '/images/user12.jpeg',
   language: 'Spanish'
 }, {
-  name: 'Tulsi',
-  image: '/images/tulsi.jpg',
+  name: 'David',
+  image: '/images/user13.jpeg',
   language: 'Spanish'
 }, {
-  name: 'Pork Chop',
-  image: '/images/pork_chop.jpg',
+  name: 'Jim',
+  image: '/images/user14.jpeg',
   language: 'French'
 }, {
-  name: 'Ribs',
-  image: '/images/ribs.jpg',
+  name: 'Alex',
+  image: '/images/user15.jpeg',
   language: 'French'
 }, {
-  name: 'Stacey',
-  image: '/images/stacey.jpg',
+  name: 'Tony',
+  image: '/images/user16.jpeg',
   language: 'French'
 }, {
-  name: 'JD',
-  image: '/images/jd.jpg',
+  name: 'Jane',
+  image: '/images/user17.jpeg',
   language: 'French'
 }, {
-  name: 'BenBen',
-  image: '/images/benben.png',
+  name: 'Joker',
+  image: '/images/user18.jpeg',
   language: 'French'
 }, {
-  name: 'Odie',
-  image: '/images/odie.jpg',
+  name: 'Logan',
+  image: '/images/user19.jpeg',
   language: 'French'
 }];
 
@@ -92,26 +92,28 @@ const authors = [{
 
 const messages = [
   //English
-  { authorId: 2, content: 'I like React!', channelId: 1 },
-  { authorId: 3, content: 'I like Redux!', channelId: 1 },
-  { authorId: 4, content: 'I like React-Redux!', channelId: 1 },
-  { authorId: 5, content: 'I like writing web apps!', channelId: 2 },
-  { authorId: 6, content: 'You should learn JavaScript!', channelId: 2 },
-  { authorId: 7, content: 'JavaScript is pretty great!', channelId: 2 },
+  { authorId: 2, content: 'I love football!', channelId: 1 },
+  { authorId: 3, content: 'Brazil will beat Germany next time!', channelId: 1 },
+  { authorId: 4, content: 'Yeah, Germany`s team is trash!', channelId: 1 },
+  { authorId: 5, content: 'Brazil lost 7-0', channelId: 1 },
+  { authorId: 6, content: 'Who do you think is going to win?', channelId: 3 },
+  { authorId: 7, content: 'I am very sad!', channelId: 1 },
   //French
-  { authorId: 8, content: 'Dogs are great!', channelId: 3 },
-  { authorId: 9, content: 'Cats are also great!', channelId: 3 },
-  { authorId: 10, content: 'Why must we fight so?', channelId: 3 },
-  { authorId: 11, content: 'I want to get tacos!', channelId: 4 },
-  { authorId: 12, content: 'I want to get salad!', channelId: 4 },
-  { authorId: 13, content: 'I want a taco salad!', channelId: 4 },
+  { authorId: 8, content: 'Real Madrid is definitely going to win!', channelId: 3 },
+  { authorId: 9, content: 'No chance, Manchester United all the way!', channelId: 3 },
+  { authorId: 10, content: 'I am just here so I don`t get fined', channelId: 3 },
+  { authorId: 11, content: 'Your team is trash!', channelId: 4 },
+  { authorId: 12, content: 'No your team is trash!', channelId: 4 },
+  { authorId: 13, content: 'Both teams are bad, please stop. Thanks.', channelId: 4 },
   //Chinese
-  { authorId: 14, content: 'Dogs are great!', channelId: 3 },
-  { authorId: 15, content: 'Cats are also great!', channelId: 3 },
-  { authorId: 16, content: 'Why must we fight so?', channelId: 3 },
-  { authorId: 17, content: 'I want to get tacos!', channelId: 4 },
-  { authorId: 18, content: 'I want to get salad!', channelId: 4 },
-  { authorId: 19, content: 'I want a taco salad!', channelId: 4 }
+  { authorId: 14, content: 'I think both teams are bad. Go Arsenal!', channelId: 3 },
+  { authorId: 15, content: 'What does losing feel like', channelId: 1 },
+  { authorId: 16, content: 'Haha whatever you say', channelId: 3 },
+  { authorId: 17, content: 'I love this website', channelId: 2 },
+  { authorId: 18, content: 'Yeah, this website is great!', channelId: 2 },
+  { authorId: 19, content: 'This is the best website since the 1995-1996 Bulls!', channelId: 2 },
+  { authorId: 2, content: 'No one likes you David', channelId: 2 },
+  { authorId: 18, content: 'Wheres the Batman', channelId: 2 }
 ];
 
 const seed = () =>

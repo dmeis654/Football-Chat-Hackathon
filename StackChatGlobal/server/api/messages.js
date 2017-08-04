@@ -17,7 +17,6 @@ function translateText (text, target) {
       let translations = results[0];
       translations = Array.isArray(translations) ? translations : [translations];
 
-      //console.log('Translations:');
       return translations.map((translation, i) => {
        
       return translation;
@@ -30,63 +29,13 @@ function translateText (text, target) {
 
 module.exports = router;
 
-//Testing translate
-router.get('/:id/translateSpanish', function (req, res, next) {
-  Message.findOne({
-    where: {
-      id: req.params.id
-    }
-  })
-  .then(message => translateText(message.content, "es"))
-  .then((translated) => res.json(translated))
-  .catch(next)
-})
-
 //Translate to Languages
 
-router.get('/translateEnglish', function (req, res, next) {
+router.get('/translate', function (req, res, next) {
   Message.findAll({})
   .then(messageObjects => {
     return messageObjects.map((message) => {
-      const translated = translateText(message.content, "en")
-      return translated
-      .then(translated => {
-      message.content = translated[0]
-      return message
-      })
-    })
-  })
-  .then((translated) => {
-    Promise.all(translated)
-    .then(resolved => res.json(resolved))
-  })
-  .catch(next)
-})
-
-router.get('/translateSpanish', function (req, res, next) {
-  Message.findAll({})
-  .then(messageObjects => {
-    return messageObjects.map((message) => {
-      const translated = translateText(message.content, "es")
-      return translated
-      .then(translated => {
-      message.content = translated[0]
-      return message
-      })
-    })
-  })
-  .then((translated) => {
-    Promise.all(translated)
-    .then(resolved => res.json(resolved))
-  })
-  .catch(next)
-})
-
-router.get('/translateFrench', function (req, res, next) {
-  Message.findAll({})
-  .then(messageObjects => {
-    return messageObjects.map((message) => {
-      const translated = translateText(message.content, "fr")
+      const translated = translateText(message.content, req.query.language)
       return translated
       .then(translated => {
       message.content = translated[0]
@@ -104,29 +53,28 @@ router.get('/translateFrench', function (req, res, next) {
 // GET api/messages
 router.get('/', function (req, res, next) {
   Message.findAll()
-    .then(messages => res.json(messages))
+    .then(messages => {
+      return res.json(messages)})
     .catch(next);
 });
 
 // POST /api/messages
 router.post('/', function (req, res, next) {
   console.log("hello")
-  // We don't have proper users yet (we'll get there soon, though!).
-  // Instead, we'll findOrCreate an author by name, for simplicity.
-  // Of course, you wouldn't want to do this in a real chat app!
+
   Author.findOrCreate({
     where: {
       name: req.body.name || 'Anonymous'
     }
   })
   .spread(author => {
-    console.log("hi")
     const message = Message.build(req.body);
     message.setAuthor(author, { save: false });
     return message.save()
       .then(message => {
         message = message.toJSON();
         message.author = author;
+        console.log("asdasd", message)
         return message;
       });
   })

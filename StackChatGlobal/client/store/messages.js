@@ -5,9 +5,7 @@ import socket from '../socket';
 
 const GET_MESSAGE = 'GET_MESSAGE';
 const GET_MESSAGES = 'GET_MESSAGES';
-const GET_ENGLISH_MESSAGES = 'GET_ENGLISH_MESSAGES';
-const GET_SPANISH_MESSAGES = 'GET_SPANISH_MESSAGES';
-const GET_FRENCH_MESSAGES = 'GET_FRENCH_MESSAGES';
+const GET_TRANSLATED_MESSAGES = 'GET_TRANSLATED_MESSAGES';
 
 // ACTION CREATORS
 
@@ -21,18 +19,8 @@ export function getMessages (messages) {
   return action;
 }
 
-export function getEnglishMessages (messages) {
-  const action = { type: GET_ENGLISH_MESSAGES, messages };
-  return action;
-}
-
-export function getSpanishMessages (messages) {
-  const action = { type: GET_SPANISH_MESSAGES, messages };
-  return action;
-}
-
-export function getFrenchMessages (messages) {
-  const action = { type: GET_FRENCH_MESSAGES, messages };
+export function getTranslatedMessages (messages) {
+  const action = { type: GET_TRANSLATED_MESSAGES, messages };
   return action;
 }
 
@@ -50,37 +38,13 @@ export function fetchMessages () {
   };
 }
 
-export function fetchEnglishMessages () {
+export function fetchTranslatedMessages (language) {
 
   return function thunk (dispatch) {
-    return axios.get('/api/messages/translateEnglish')
+    return axios.get('/api/messages/translate', {params: {language: language}})
       .then(res => res.data)
       .then(messages => {
-        const action = getEnglishMessages(messages);
-        dispatch(action);
-      });
-  };
-}
-
-export function fetchSpanishMessages () {
-
-  return function thunk (dispatch) {
-    return axios.get('/api/messages/translateSpanish')
-      .then(res => res.data)
-      .then(messages => {
-        const action = getSpanishMessages(messages);
-        dispatch(action);
-      });
-  };
-}
-
-export function fetchFrenchMessages () {
-
-  return function thunk (dispatch) {
-    return axios.get('/api/messages/translateFrench')
-      .then(res => res.data)
-      .then(messages => {
-        const action = getFrenchMessages(messages);
+        const action = getTranslatedMessages(messages);
         dispatch(action);
       });
   };
@@ -112,13 +76,7 @@ export default function reducer (state = [], action) {
     case GET_MESSAGE:
       return [...state, action.message];
 
-    case GET_SPANISH_MESSAGES:
-      return action.messages
-    
-    case GET_FRENCH_MESSAGES:
-      return action.messages
-
-    case GET_ENGLISH_MESSAGES:
+    case GET_TRANSLATED_MESSAGES:
       return action.messages
 
     default:
