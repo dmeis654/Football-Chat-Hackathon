@@ -18452,6 +18452,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     handleSubmit: function handleSubmit(evt) {
       evt.preventDefault();
+      console.log("hello");
       var name = evt.target.channelName.value;
       dispatch((0, _store.postChannel)({ name: name }, ownProps.history));
       dispatch((0, _store.writeChannelName)(''));
@@ -18693,7 +18694,7 @@ function fetchChannels() {
 }
 
 function postChannel(channel, history) {
-
+  console.log("pt1", channel);
   return function thunk(dispatch) {
     return _axios2.default.post('/api/channels', channel).then(function (res) {
       return res.data;

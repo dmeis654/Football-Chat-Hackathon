@@ -30,7 +30,7 @@ export function fetchChannels () {
 }
 
 export function postChannel (channel, history) {
-
+  console.log("pt1", channel)
   return function thunk (dispatch) {
     return axios.post('/api/channels', channel)
       .then(res => res.data)

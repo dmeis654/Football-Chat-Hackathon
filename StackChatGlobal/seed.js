@@ -4,10 +4,10 @@ const Message = require('./server/db/models/message');
 const Channel = require('./server/db/models/channel');
 
 const channels = [
-  { name: 'Agentina vs. Brazil', id: 1 },
-  { name: 'Love the Website', id: 2 },
-  { name: 'Man U vs. Real', id: 3 },
-  { name: 'Trash Talkers', id: 4 }
+  { name: 'Agentina vs. Brazil'},
+  { name: 'Love the Website'},
+  { name: 'Man U vs. Real'},
+  { name: 'Trash Talkers'}
 ];
 
 const authors = [{

@@ -39,6 +39,7 @@ const mapDispatchToProps = function (dispatch, ownProps) {
     },
     handleSubmit (evt) {
       evt.preventDefault();
+      console.log("hello")
       const name = evt.target.channelName.value;
       dispatch(postChannel({ name }, ownProps.history));
       dispatch(writeChannelName(''));
