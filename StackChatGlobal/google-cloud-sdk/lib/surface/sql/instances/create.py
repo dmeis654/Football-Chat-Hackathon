@@ -80,11 +80,11 @@ def AddBaseArgs(parser):
   flags.AddMaintenanceWindowDay(parser)
   flags.AddMaintenanceWindowHour(parser)
   parser.add_argument(
-      '--master-instance-name',
+      '--main-instance-name',
       required=False,
-      help=('Name of the instance which will act as master in the '
+      help=('Name of the instance which will act as main in the '
             'replication setup. The newly created instance will be a read '
-            'replica of the specified master instance.'))
+            'replica of the specified main instance.'))
   flags.AddMemory(parser)
   parser.add_argument(
       '--on-premises-host-port', required=False, help=argparse.SUPPRESS)
